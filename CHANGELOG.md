@@ -2,3 +2,4 @@
 - Setup of the project
 - Basic modules added to parse Prismic response
 - First commit to Github
+- Adds screen recording to show the preview
