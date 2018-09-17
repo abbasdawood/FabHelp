@@ -6,10 +6,12 @@ Fabhelp is a javascript plugin that works with [Prismic](https://prismic.io) as 
 To get started:
 - Create a free account on [Prismic.io](https://prismic.io)
 - Create a content model called `FAQ` in the project, with at least two fields:
-| Field Name | API Key / ID | What this will contain | Data Type |
-|------------|--------------|---------------------|-----------|
-| Title| title| This will hold the frequently asked question | Title |
-| Answer| answer| This will hold the answer to the question asked above | Rich Text |
+
+Field Name | API Key / ID | What is this for? | Data Type
+------------|--------------|---------------------|-----------
+Title| title| This will hold the frequently asked question | Title
+Answer| answer| This will hold the answer to the question asked above | Rich Text
+
 - Install the peer dependencies of fontawesome, bootstrap and animate.css by using the following command:
 ```
 npm i --save bootstrap @fortawesome/fontawesome-free animate.css
@@ -24,7 +26,7 @@ npm i --save bootstrap @fortawesome/fontawesome-free animate.css
     document.addEventListener('DOMContentLoaded', function(){
       let inAppHelp = new InAppHelp({
         endpoint: 'your prismic bucket endpoint',
-        documentType: 'your prismic document type'
+        documentType: 'faq'
      });
       inAppHelp.init();
     });
