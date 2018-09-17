@@ -2,6 +2,8 @@
 
 Fabhelp is a javascript plugin that works with [Prismic](https://prismic.io) as a content management system. It can be used to trigger an in-app help from a floating action button in any of the web projects.
 
+![alt text](https://github.com/abbasdawood/FabHelp/blob/master/recording.gif "How it works")
+
 ## QuickStart
 To get started:
 - Create a free account on [Prismic.io](https://prismic.io)
