@@ -24,6 +24,10 @@ npm i --save bootstrap @fortawesome/fontawesome-free animate.css
 ```
 - In your `index.html`, place the following code after including all the dependencies
 ```
+  <!-- Add this immediately after the body tag -->
+  <div id="help-root"></div> 
+```
+```
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function(){
       let inAppHelp = new InAppHelp({
