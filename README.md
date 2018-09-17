@@ -23,11 +23,11 @@ npm i --save bootstrap @fortawesome/fontawesome-free animate.css
 <script src="/node_modules/fabhelp/dist/fabhelp.js"></script>
 ```
 - In your `index.html`, place the following code after including all the dependencies
-```
+```html
   <!-- Add this immediately after the body tag -->
   <div id="help-root"></div> 
 ```
-```
+```javascript
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function(){
       let inAppHelp = new InAppHelp({
