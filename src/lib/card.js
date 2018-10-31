@@ -15,7 +15,7 @@ export class Card {
 
         let card = document.createElement('div');
         card.setAttribute('id', 'help-card');
-        card.classList.add('card', 'mb-2', 'd-block', 'animated', 'fadeInRight', 'w-100'); // this is the root card
+        card.classList.add('card', 'mb-2', 'd-block', 'animated', 'animateInFromRightBottom', 'w-100'); // this is the root card
 
         card.innerHTML = `
         <div class="card-header">
@@ -60,9 +60,9 @@ export class Card {
      * Function to destroy all instances of the card
      */
     remove() {
-        if (this.card.classList.contains('fadeInRight')) {
-            this.card.classList.remove('fadeInRight');
-            this.card.classList.add('fadeOutRight');
+        if (this.card.classList.contains('animateInFromRightBottom')) {
+            this.card.classList.remove('animateInFromRightBottom');
+            this.card.classList.add('animateOutToRightBottom');
         }
         setTimeout(() => {
             this.card.remove();
@@ -75,8 +75,8 @@ export class Card {
             e.classList.remove('d-none');
             e.classList.add('d-block');
         } else if(e.classList.contains('d-block')){
-            e.classList.add('d-none');
             e.classList.remove('d-block');
+            e.classList.add('d-none');
         } else {
             e.classList.add('d-block');
         }
