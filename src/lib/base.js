@@ -10,7 +10,7 @@ export class Base {
             ...configuration,
             documentType: 'faq'
         };
-        this.setting = new Setting(configuration.endpoint, configuration.documentType);
+        this.setting = new Setting(configuration.endpoint, configuration.documentType, configuration.productArea);
         this.orientation = configuration.orientation;
         this.colors = configuration.colors
     }
@@ -23,7 +23,7 @@ export class Base {
         this.card = new Card(this.setting);
         this.card.show(this.getBaseElement());
         this.card.addFormEventListener();
-        this.card.getArticles(content);
+        this.card.getArticles(content, 1, 5);
         this.hideOnClickOutside(document.getElementById('help-card'));
     }
 
@@ -54,7 +54,7 @@ export class Base {
     /**
      * Function to show the button on the page
      */
-    showButton(content) {
+    showButton() {
         let button = document.createElement('button'); // Create the help button
         button.classList.add('fab-caller', 'float-right');
         button.innerHTML = '<i class="fas fa-question animated fadeIn fa-sm"></i>';
@@ -72,16 +72,17 @@ export class Base {
             if (!button.getAttribute('data-open') && button.getAttribute('data-open') !== 'open') {
                 button.setAttribute('data-open', 'open');
                 button.innerHTML = '<i class="fas fa-times animated rotateIn fa-xs"></i>'
-                self.showCard(content);
+                self.showCard(self.searchTerm);
             } else {
                 button.innerHTML = '<i class="fas fa-question animated fadeIn fa-xs"></i>';
                 button.removeAttribute('data-open');
                 self.destroyCard();
+                self.searchTerm = null;
             }
         });
         this.getBaseElement().appendChild(button);
 
-        if(content){
+        if(this.searchTerm){
             button.click();
         }
     }
@@ -110,7 +111,8 @@ export class Base {
      * Entry point, this starts the initialisation
      */
     init(searchTerm) {
-        this.showButton(searchTerm);
+        this.searchTerm = searchTerm;
+        this.showButton();
         this.initialized = true;
     }
 

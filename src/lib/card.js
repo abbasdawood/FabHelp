@@ -12,6 +12,9 @@ export class Card {
     constructor(setting) {
         this.content = new Content();
         this.showDetail = false;
+        this.page = 1;
+        this.pagesize = 5;
+        this.showMore = true;
 
         let card = document.createElement('div');
         card.setAttribute('id', 'help-card');
@@ -22,27 +25,27 @@ export class Card {
             Hi, How can we help?
         </div>
         <div class="card-body d-none" id="search">
-            <form id="search-form">
+            <form id="search-form" autocomplete="off">
                 <div class="input-group">
                     <div class="input-group-prepend">
                     <span class="input-group-text bg-white" id="basic-addon1">
                         <i class="fas fa-search"></i>
                     </span>
                     </div>
-                    <input type="search" id="search-box" class="form-control" placeholder="Search articles & documents" aria-describedby="basic-addon1">
+                    <input type="search" id="search-box" class="form-control" placeholder="Search articles & documents" aria-describedby="basic-addon1" autocomplete="off">
                     <small class="form-text text-muted small">To refine your search, type in your question.</small>
                 </div>
             </form>
         </div>
         <div class="card-body d-none" id="detail">
         </div>
-        <div class="card-body text-center d-none" id="loader">
-            <div class="lds-ripple my-3"><div></div><div></div></div>
-        </div>
         <div class="card-body d-none text-center" id="error">
         </div>
         <ul class="list-group list-group-flush" id="document-list">
         </ul>
+        <div class="card-body text-center d-none" id="loader">
+            <div class="lds-ripple my-3"><div></div><div></div></div>
+        </div>
         <div class="card-footer bg-white d-none" id="card-footer">
             <button class="btn btn-sm btn-outline-primary" id="back-button">
                 <i class="fas fa-sm fa-chevron-left mr-1"></i> Go Back
@@ -57,6 +60,25 @@ export class Card {
     show(baseElement) {
         baseElement.appendChild(this.card); // Append the card to the DOM
         this.showElement('search');
+        this.addScrollListener();
+    }
+
+    addScrollListener(){
+        let self = this;
+        let list = document.getElementById('document-list')
+        list.addEventListener('scroll', (event) => {
+            if(list.scrollHeight === (list.scrollTop + list.offsetHeight)){
+                console.log('bottom reached');
+                if(self.showMore){
+                    self.page++;
+                    self.getArticles(null, self.page, self.pagesize);
+                }
+            }
+
+            if(list.scrollTop === 0){
+                console.log('top reached');
+            }
+          });
     }
 
     addFormEventListener() {
@@ -66,7 +88,8 @@ export class Card {
             event.preventDefault();
             let searchTerm = document.getElementById('search-box').value;
             if(searchTerm){
-                self.getArticles(searchTerm);  
+                self.page = 1;
+                self.getArticles(searchTerm, self.page, self.pagesize);  
             }
         });
     }
@@ -122,29 +145,35 @@ export class Card {
         }
     }
 
-    getArticles(searchTerm) {
+    getArticles(searchTerm, page, pagesize) {
         let self = this;
 
-        console.log(`Searching using ${searchTerm}`);
+        if(this.loading){
+            console.log('Already loading..');
+            return false;
+        }
+
+        this.loading = true;
 
         // Show the loader & document-list element
         this.showElement('loader');
         this.showElement('document-list');
 
-        this.removeArticles(); // Reset the DOM first
-
         // Get the articles using the service
         this.content.getDocuments(
             self.setting.endpoint,
             self.setting.documentType,
-            1,
-            10,
-            searchTerm
+            page || 1,
+            pagesize || 10,
+            searchTerm,
+            self.setting.productArea
         ).then(response => {
+            this.loading = false;
             // Hide the loader
             self.hideElement('loader');
             self.buildResponseDom(response, searchTerm);
         }).catch(error => {
+            this.loading = false;
             // Hide the loader
             self.hideElement('loader');
             self.addError(error);
@@ -159,13 +188,10 @@ export class Card {
     removeArticles() {
         // Remove existing results
         let ul = document.getElementById('document-list');
-        console.log(`Number of articles is ${ul.childElementCount}`)
         while (ul.firstChild) {
             ul.removeChild(ul.firstChild);
         }
-        console.log(`Number of articles after removal is ${ul.childElementCount}`)
     }
-
 
     /**
      * Function to get the list items of the list view
@@ -192,7 +218,7 @@ export class Card {
             self.hideElement('detail');
             self.hideElement('card-footer');
             self.showDetail = false;
-            self.getArticles();
+            self.getArticles(null, this.page);
         });
     }
 
@@ -246,10 +272,19 @@ export class Card {
         let results = response.results;
         let self = this;
 
-        if(!results.length){
+        if(response.next_page){
+            self.showMore = true;
+        } else {
+            self.showMore = false;
+        }
+
+        if(!response.results_size){
             this.generateNullState(searchTerm);
         } else {
             let documentList = document.getElementById('document-list');
+            if(searchTerm){
+                self.removeArticles();
+            }
             results.forEach(doc => {
                 let listItem = document.createElement('li');
                 listItem.classList.add('list-group-item');

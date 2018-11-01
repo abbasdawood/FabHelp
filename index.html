@@ -21,19 +21,28 @@
 
 <body>
   <div id="help-root"></div>
-  <button type="button" name="demo" id="demo" class="btn btn-primary btn-lg btn-block">Show Yash</button>
+  <div class="container pt-5">
+    <div class="row">
+      <div class="col-12">
+        <h1>Bud</h1>
+        <p class="lead mb-2">Bud helps document your softwares faster, and help users when they face an issue using it.</p>
+        <button type="button" name="demo" id="demo" class="btn btn-primary">Show Help Documents containing the word 'Lav'</button>
+      </div>
+    </div>
+  </div>
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function(){
       let bud = new Bud({
         endpoint: 'https://auxil.cdn.prismic.io/api/v2',
         documentType: 'faq',
         orientation: '-45deg',
-        colors: ['#0486ff']
+        colors: ['#0486ff'],
+        productArea: 'leadplus'
       });
       bud.init();
 
       document.getElementById('demo').addEventListener('click', function(){
-        bud.init('yash')
+        bud.init('lav');
       });
     });
   </script>
