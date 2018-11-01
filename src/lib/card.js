@@ -22,14 +22,14 @@ export class Card {
             Hi, How can we help?
         </div>
         <div class="card-body d-none" id="search">
-            <form>
+            <form id="search-form">
                 <div class="input-group">
                     <div class="input-group-prepend">
                     <span class="input-group-text bg-white" id="basic-addon1">
                         <i class="fas fa-search"></i>
                     </span>
                     </div>
-                    <input type="search" class="form-control" placeholder="Search articles & documents" aria-describedby="basic-addon1">
+                    <input type="search" id="search-box" class="form-control" placeholder="Search articles & documents" aria-describedby="basic-addon1">
                     <small class="form-text text-muted small">To refine your search, type in your question.</small>
                 </div>
             </form>
@@ -38,6 +38,8 @@ export class Card {
         </div>
         <div class="card-body text-center d-none" id="loader">
             <div class="lds-ripple my-3"><div></div><div></div></div>
+        </div>
+        <div class="card-body d-none text-center" id="error">
         </div>
         <ul class="list-group list-group-flush" id="document-list">
         </ul>
@@ -54,6 +56,37 @@ export class Card {
 
     show(baseElement) {
         baseElement.appendChild(this.card); // Append the card to the DOM
+        this.showElement('search');
+    }
+
+    addFormEventListener() {
+        let self = this;
+        let searchForm = document.getElementById('search-form');
+        searchForm.addEventListener('submit', event => {
+            event.preventDefault();
+            let searchTerm = document.getElementById('search-box').value;
+            if(searchTerm){
+                self.getArticles(searchTerm);  
+            }
+        });
+    }
+
+    generateNullState(searchTerm){
+        let self = this;
+        self.removeArticles();
+        let nullTemplate = `
+            <i class="fas fa-exclamation-triangle fa-2x text-warning mb-3"></i>
+            <h5>Whoops!</h5>
+            <p class="text-muted">We couldn't find any resource matching <em>${searchTerm}</em>. Try using another search term.</p>
+            <button class="btn btn-outline-primary my-2" id="clear-search">Clear this search</button>
+        `
+        this.showElement('error');
+        document.getElementById('error').innerHTML = nullTemplate;
+        document.getElementById('clear-search').addEventListener('click', ()=> {
+            self.hideElement('error');
+            self.getArticles();
+            document.getElementById('search-box').value = '';
+        });
     }
 
     /** 
@@ -69,27 +102,38 @@ export class Card {
         }, 100);
     }
 
-    showHideElement(element) {
+    showElement(element) {
         let e = document.getElementById(element);
         if (e.classList.contains('d-none')) {
             e.classList.remove('d-none');
             e.classList.add('d-block');
-        } else if(e.classList.contains('d-block')){
+        } else {
+            e.classList.add('d-block');
+        }
+    }
+
+    hideElement(element){
+        let e = document.getElementById(element);
+        if (e.classList.contains('d-block')) {
             e.classList.remove('d-block');
             e.classList.add('d-none');
         } else {
-            e.classList.add('d-block');
+            e.classList.add('d-none');
         }
     }
 
     getArticles(searchTerm) {
         let self = this;
 
+        console.log(`Searching using ${searchTerm}`);
+
         // Show the loader & document-list element
-        this.showHideElement('loader');
-        this.showHideElement('document-list');
+        this.showElement('loader');
+        this.showElement('document-list');
 
+        this.removeArticles(); // Reset the DOM first
 
+        // Get the articles using the service
         this.content.getDocuments(
             self.setting.endpoint,
             self.setting.documentType,
@@ -98,17 +142,31 @@ export class Card {
             searchTerm
         ).then(response => {
             // Hide the loader
-            self.showHideElement('loader');
-            self.buildResponseDom(response);
+            self.hideElement('loader');
+            self.buildResponseDom(response, searchTerm);
         }).catch(error => {
             // Hide the loader
-            self.showHideElement('loader');
-            console.error(error);
+            self.hideElement('loader');
             self.addError(error);
         });
     }
-    
-    
+
+    /**
+     * Removes the list of articles in the base card
+     *
+     * @memberof Card
+     */
+    removeArticles() {
+        // Remove existing results
+        let ul = document.getElementById('document-list');
+        console.log(`Number of articles is ${ul.childElementCount}`)
+        while (ul.firstChild) {
+            ul.removeChild(ul.firstChild);
+        }
+        console.log(`Number of articles after removal is ${ul.childElementCount}`)
+    }
+
+
     /**
      * Function to get the list items of the list view
      *
@@ -120,7 +178,7 @@ export class Card {
         return new FaqDocument(document).getSnapshot();
     }
 
-        
+
     /**
      * Function to add the back button interaction
      *
@@ -131,9 +189,8 @@ export class Card {
         let backButton = document.getElementById('back-button');
         backButton.addEventListener('click', event => {
             // Hide the detail section and the footer
-            self.showHideElement('detail');
-            self.showHideElement('card-footer');
-            console.log(`Classes on document-list ${document.getElementById('document-list').classList.value}`);
+            self.hideElement('detail');
+            self.hideElement('card-footer');
             self.showDetail = false;
             self.getArticles();
         });
@@ -156,28 +213,21 @@ export class Card {
         }
 
         // Hide these elements: search, document-list
-        this.showHideElement('search');
-        this.showHideElement('document-list');
-
-        // Remove existing results
-        let ul = document.getElementById('document-list');
-        while(ul.firstChild){
-            ul.removeChild(ul.firstChild);
-        }
+        this.hideElement('document-list');
+        this.removeArticles();
 
         self.showDetail = true;
 
-
         // Show the loader, detail & footer
-        this.showHideElement('loader');
-        this.showHideElement('detail');
-        this.showHideElement('card-footer');
+        this.showElement('loader');
+        this.showElement('detail');
+        this.showElement('card-footer');
 
         let content = new Content();
         content.getById(this.setting.endpoint, id)
             .then(doc => {
                 // Hide the loader
-                self.showHideElement('loader');
+                self.hideElement('loader');
                 let faqDocument = new FaqDocument(doc).getDocument();
                 let cardTemplateContent = `
                     <h5 class="card-title">${faqDocument.title}</h5><hr>
@@ -187,32 +237,36 @@ export class Card {
 
             }).catch(error => {
                 // Hide the loader
-                self.showHideElement('loader');
+                self.hideElement('loader');
                 self.addError(error);
             });
     }
 
-    buildResponseDom(response) {
+    buildResponseDom(response, searchTerm) {
         let results = response.results;
-        let documentList = document.getElementById('document-list');
         let self = this;
-        results.forEach(doc => {
-            let listItem = document.createElement('li');
-            listItem.classList.add('list-group-item');
-            let faqItem = this.getListItemContent(doc);
-            listItem.innerHTML = `
-                <h6>${faqItem.title}</h6>
-                <small>${faqItem.snippet}</small>
-                <a class="read-more small float-right mt-1" href="#" data-document-id="${doc.id}">Read More</a>
-            `;
-            listItem.childNodes.forEach(node => {
-                if (doc.id) {
-                    self.addListItemEventListener(node);
-                }
+
+        if(!results.length){
+            this.generateNullState(searchTerm);
+        } else {
+            let documentList = document.getElementById('document-list');
+            results.forEach(doc => {
+                let listItem = document.createElement('li');
+                listItem.classList.add('list-group-item');
+                let faqItem = this.getListItemContent(doc);
+                listItem.innerHTML = `
+                    <h6>${faqItem.title}</h6>
+                    <small>${faqItem.snippet}</small>
+                    <a class="read-more small float-right mt-1" href="#" data-document-id="${doc.id}">Read More</a>
+                `;
+                listItem.childNodes.forEach(node => {
+                    if (doc.id) {
+                        self.addListItemEventListener(node);
+                    }
+                });
+                documentList.appendChild(listItem);
             });
-            documentList.appendChild(listItem);
-        });
-        this.showHideElement('search');
+        }
     }
 
     addListItemEventListener(node) {

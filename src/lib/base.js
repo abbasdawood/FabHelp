@@ -21,6 +21,7 @@ export class Base {
     showCard() {
         this.card = new Card(this.setting);
         this.card.show(this.getBaseElement());
+        this.card.addFormEventListener();
         this.card.getArticles();
         this.hideOnClickOutside(document.getElementById('help-card'));
     }
