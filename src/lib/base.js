@@ -10,15 +10,16 @@ export class Base {
             ...configuration,
             documentType: 'faq'
         };
-        console.log(configuration);
         this.setting = new Setting(configuration.endpoint, configuration.documentType);
+        this.orientation = configuration.orientation;
+        this.colors = configuration.colors
     }
 
     getBaseElement() {
         return this.setting.getBaseElement();
     }
 
-    showCard() {
+    showCard(content) {
         this.card = new Card(this.setting);
         this.card.show(this.getBaseElement());
         this.card.addFormEventListener();
@@ -26,17 +27,44 @@ export class Base {
         this.hideOnClickOutside(document.getElementById('help-card'));
     }
 
-    destroyCard(){
+    destroyCard() {
         this.card.remove();
+    }
+
+    getCssValuePrefix() {
+        var rtrnVal = '';//default to standard syntax
+        var prefixes = ['-o-', '-ms-', '-moz-', '-webkit-'];
+
+        // Create a temporary DOM object for testing
+        var dom = document.createElement('div');
+
+        for (var i = 0; i < prefixes.length; i++) {
+            // Attempt to set the style
+            dom.style.background = prefixes[i] + 'linear-gradient(#000000, #ffffff)';
+
+            // Detect if the style was successfully set
+            if (dom.style.background) {
+                rtrnVal = prefixes[i];
+            }
+        }
+
+        return rtrnVal;
     }
 
     /**
      * Function to show the button on the page
      */
-    showButton() {
+    showButton(content) {
         let button = document.createElement('button'); // Create the help button
         button.classList.add('fab-caller', 'float-right');
         button.innerHTML = '<i class="fas fa-question animated fadeIn fa-sm"></i>';
+
+        if(this.colors.length > 1){
+            let colorString = this.colors.join(',')
+            button.style.backgroundImage = this.getCssValuePrefix() + `linear-gradient(${this.orientation}, ${colorString})`;
+        } else {
+            button.style.backgroundColor = this.colors[0];
+        }
 
         let self = this;
 
@@ -44,7 +72,7 @@ export class Base {
             if (!button.getAttribute('data-open') && button.getAttribute('data-open') !== 'open') {
                 button.setAttribute('data-open', 'open');
                 button.innerHTML = '<i class="fas fa-times animated rotateIn fa-xs"></i>'
-                self.showCard();
+                self.showCard(content);
             } else {
                 button.innerHTML = '<i class="fas fa-question animated fadeIn fa-xs"></i>';
                 button.removeAttribute('data-open');
@@ -52,11 +80,15 @@ export class Base {
             }
         });
         this.getBaseElement().appendChild(button);
+
+        if(content){
+            button.click();
+        }
     }
 
     hideOnClickOutside(element) {
         // source (2018-03-11): https://github.com/jquery/jquery/blob/master/src/css/hiddenVisibleSelectors.js 
-        const isVisible = element => !!element && !!( element.offsetWidth || element.offsetHeight || element.getClientRects().length ) 
+        const isVisible = element => !!element && !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length)
 
         let outsideClickListener = event => {
             if (!element.contains(event.target)) { // or use: event.target.closest(selector) === null
@@ -66,19 +98,19 @@ export class Base {
                 }
             }
         }
-    
+
         let removeClickListener = () => {
             document.removeEventListener('click', outsideClickListener)
         }
-    
+
         document.addEventListener('click', outsideClickListener)
     }
 
     /**
      * Entry point, this starts the initialisation
      */
-    init() {
-        this.showButton();
+    init(searchTerm) {
+        this.showButton(searchTerm);
         this.initialized = true;
     }
 

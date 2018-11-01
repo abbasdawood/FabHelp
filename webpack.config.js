@@ -8,7 +8,7 @@ module.exports = {
         index: './src/index.js'
     },
     output: {
-        library: 'InAppHelp',
+        library: 'Bud',
         libraryTarget: 'umd',
         libraryExport: 'default',
         path: path.resolve(__dirname, 'dist'),

@@ -23,11 +23,11 @@
   <div id="help-root"></div>
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function(){
-      let inAppHelp = new InAppHelp({
+      let bud = new Bud({
         endpoint: 'https://auxil.cdn.prismic.io/api/v2',
         documentType: 'faq'
       });
-      inAppHelp.init();
+      Bud.init();
     });
   </script>
 <script type="text/javascript" src="bud.js"></script></body>

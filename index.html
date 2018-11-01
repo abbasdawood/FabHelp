@@ -21,13 +21,20 @@
 
 <body>
   <div id="help-root"></div>
+  <button type="button" name="demo" id="demo" class="btn btn-primary btn-lg btn-block">Show Yash</button>
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function(){
-      let inAppHelp = new InAppHelp({
+      let bud = new Bud({
         endpoint: 'https://auxil.cdn.prismic.io/api/v2',
-        documentType: 'faq'
+        documentType: 'faq',
+        orientation: '-45deg',
+        colors: ['#0486ff']
       });
-      inAppHelp.init();
+      bud.init();
+
+      document.getElementById('demo').addEventListener('click', function(){
+        bud.init('yash')
+      });
     });
   </script>
 </body>

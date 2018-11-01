@@ -30,11 +30,11 @@ npm i --save bootstrap @fortawesome/fontawesome-free animate.css
 ```javascript
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function(){
-      let inAppHelp = new InAppHelp({
+      let bud = new Bud({
         endpoint: 'your prismic bucket endpoint',
         documentType: 'faq'
      });
-      inAppHelp.init();
+      bud.init();
     });
 </script>
 ```
