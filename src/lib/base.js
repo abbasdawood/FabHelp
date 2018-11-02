@@ -112,12 +112,7 @@ export class Base {
         this.setting = new Setting(configuration.endpoint, configuration.documentType, configuration.productArea);
         this.orientation = configuration.orientation;
         this.colors = configuration.colors
-        if(configuration.searchTerm){
-            this.searchTerm = searchTerm;
-            this.show();
-        }
         this.initialized = true;
-        // this.showButton();
     }
 
 }
