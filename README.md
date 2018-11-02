@@ -18,10 +18,6 @@ Answer| answer| This will hold the answer to the question asked above | Rich Tex
 ```
 npm i --save bootstrap @fortawesome/fontawesome-free animate.css
 ```
-- Include the javascript and css files from the `/dist` directory of the project in your web app
-```
-<script src="/node_modules/fabhelp/dist/fabhelp.js"></script>
-```
 - In your `index.html`, place the following code after including all the dependencies
 ```html
   <!-- Add this immediately after the body tag -->
