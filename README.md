@@ -30,14 +30,30 @@ npm i --save bootstrap @fortawesome/fontawesome-free animate.css
 ```javascript
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function(){
-      let inAppHelp = new InAppHelp({
+      let bud = new Bud({
         endpoint: 'your prismic bucket endpoint',
         documentType: 'faq'
      });
-      inAppHelp.init();
+      bud.init();
     });
 </script>
 ```
+
+## Initialisation Options
+A new instance of Bud is created with the following options
+
+Option | Mandatory | Description | Default Value
+----|----|----|----
+endpoint|Yes|The endpoint obtained from your prismic repository|
+documentType|Yes|The document type in your prismic repository|`faq`
+productArea|No|An added filter to choose FAQs only of a particular app|
+orientation|No|Gradient orientation in the Floating Action Button| `-45deg`
+colors|No|Array with the color of the button, if more than one color is defined, the button will have a linear-gradient|['#00bbf9', '#007eff']
+
+Once the initialisation is done, you will need to call `bud.init()`. The `init()` method can be called with a single string parameter passed to it, this will open the help interface with any and all articles with the keyword.
+
+For example. `bud.init('time')` will search for all articles with the phrase `time` in them. The search is a full text search, and does not account for typos.
+
 
 ## Peer dependencies
 This module depends on [Bootstrap](https://getbootstrap.com/), [FontAwesome](https://fontawesome.com) and [Animate.css](https://daneden.github.io/animate.css/)

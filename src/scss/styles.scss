@@ -1,45 +1,47 @@
 // @import '~bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css?family=Lato');
-
-#help-root{
+#help-root {
     width: 320px;
-    height: 400px;
+    height: calc(100vh - 150px);
     position: fixed;
     bottom: 48px;
     right: 32px;
     vertical-align: bottom;
     font-family: 'Lato', sans-serif;
+    z-index: 20000;
 }
 
-.card{
+.card {
     position: absolute;
     bottom: 64px;
-    box-shadow: 2px 18px 32px rgba(0,0,0,0.1);
+    box-shadow: 2px 18px 32px rgba(0, 0, 0, 0.1);
     user-select: none;
+    transform-origin: right bottom;
 
-    #document-list{
-        li{
-            &:hover{
+    #document-list {
+        li {
+            &:hover {
                 opacity: 0.8;
                 cursor: pointer;
             }
         }
+        max-height: calc(60vh - 100px);
+        overflow-y: scroll;
     }
-
-    #detail{
+    #detail {
         max-height: 320px;
         overflow-y: scroll;
     }
 }
 
-.fab-caller{
+.fab-caller {
     position: absolute;
     bottom: 0;
     right: 0;
     display: block;
     width: 56px;
     height: 56px;
-    background: linear-gradient(-45deg,#00bbf9,#007eff);
+    // background: linear-gradient(-45deg, #00bbf9, #007eff);
     box-shadow: 0 5px 15px rgba($color: #000000, $alpha: 0.3);
     font-weight: 700;
     font-size: 1.6rem;
@@ -47,13 +49,13 @@
     color: white;
     padding-top: 0;
     padding-bottom: 5px;
-    border: 1px solid #00bbf9;
-    &:hover{
-    box-shadow: 0 1px 20px rgba($color: #000022, $alpha: 0.25);
-    transform: translateY(-2px);
-    transition: 0.2s all;
+    border: 1px solid transparent;
+    &:hover {
+        box-shadow: 0 1px 20px rgba($color: #000022, $alpha: 0.25);
+        transform: translateY(-2px);
+        transition: 0.2s all;
     }
-    &:focus{
+    &:focus {
         outline: none;
     }
 }
@@ -72,24 +74,53 @@
         animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
         &:nth-child(2) {
             animation-delay: -0.5s;
-          }
-      }
-  }
-
-  // Keyframes for the loader
-  @keyframes lds-ripple {
+        }
+    }
+} // Keyframes for the loader
+@keyframes lds-ripple {
     0% {
-      top: 28px;
-      left: 28px;
-      width: 0;
-      height: 0;
-      opacity: 1;
+        top: 28px;
+        left: 28px;
+        width: 0;
+        height: 0;
+        opacity: 1;
     }
     100% {
-      top: -1px;
-      left: -1px;
-      width: 58px;
-      height: 58px;
-      opacity: 0;
+        top: -1px;
+        left: -1px;
+        width: 58px;
+        height: 58px;
+        opacity: 0;
     }
-  }
+}
+
+.animateInFromRightBottom{
+    animation: animateInFromRightBottom 0.3s cubic-bezier(.51,.51,.42,.89);
+}
+
+.animateOutToRightBottom{
+    animation: animateOutToRightBottom 0.2s cubic-bezier(.56,.11,.51,.74);
+}
+
+@keyframes animateInFromRightBottom{
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100%{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes animateOutToRightBottom{
+    0%{
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}

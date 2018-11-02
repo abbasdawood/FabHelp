@@ -1,11 +1,13 @@
 {
-  "name": "fabhelp",
+  "name": "bud",
   "version": "1.0.0",
   "description": "Floating help plugin triggered from a floating action button on the page, works with Prismic Headless CMS as a backend.",
   "main": "src/main.js",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open",
+    "version": "npm run build && git add -A dist",
+    "postversion": "git push && git push --tags"
   },
   "author": "abbasdawood",
   "license": "MIT",
@@ -27,6 +29,7 @@
     "postcss-loader": "^2.1.5",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-scss": "^0.4.0",
+    "s3-deploy": "^1.1.4",
     "sass-loader": "^7.0.1",
     "style-loader": "^0.21.0",
     "uglifyjs-webpack-plugin": "^1.2.5",

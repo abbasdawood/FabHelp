@@ -1,4 +1,5 @@
 import './scss/styles.scss';
-import { Base as defaultExport } from './lib/base';
+import { Base as Bud } from './lib/base';
 
-export default defaultExport;
+export default Bud;
+window.bud = new Bud();

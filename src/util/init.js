@@ -1,8 +1,9 @@
 export class Setting{
 
-    constructor(endpoint, documentType){
+    constructor(endpoint, documentType, productArea){
         this.endpoint = endpoint;
         this.documentType = documentType;
+        this.productArea = productArea;
     }
 
     getBaseElement(){
