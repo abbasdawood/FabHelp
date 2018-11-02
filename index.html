@@ -27,37 +27,42 @@
         <h1>Bud</h1>
         <p class="mb-2">Bud helps product owners document frequently asked questions and product features in an unobtrusive manner, and show helpful product related documentation to the users, when they need it. All of the documentation is sourced from the <a href="//prismic.io" target="_blank">Prismic</a> Repository.
           If you have any documents with certain keywords, you can trigger the Bud from within the DOM. For instance
-          click here to see a list of issues tagged <a href="#" id="username">username</a> issues.</p>
+          <a href="#" id="username">click here</a> to see a list of issues tagged username issues.</p>
         <p>You can bind the initialisation of Bud to any DOM element, for instance click the button below to see Bud
           with all documents containing the word 'Lav'</p>
         <button type="button" name="demo" id="demo" class="btn btn-primary my-2">Show all 'Lav' documents</button>
         <hr>
         <h2>Dependencies</h2>
         <ul class="list-group">
-          <li class="list-group-item active">Bootstrap v4.0.0+</li>
-          <li class="list-group-item active">Animate CSS</li>
-          <li class="list-group-item active">FontAwesome v5</li>
+          <li class="list-group-item">Bootstrap v4.0.0+</li>
+          <li class="list-group-item">Animate CSS</li>
+          <li class="list-group-item">FontAwesome v5</li>
         </ul>
+        <hr>
         <h2>Intialisation</h2>
         <p>Copy the following script and paste it immediately after the body tag.</p>
         <pre class="bg-light p-2 border">
           <code>
+  &lt;div id="help-root"&gt;&lt;/div&gt;
   &lt;script&gt;
-    bud.init({
-      endpoint: 'https://auxil.cdn.prismic.io/api/v2',
-      documentType: 'faq',
-      orientation: '-45deg',
-      colors: ['#0486ff'],
-      productArea: 'leadplus'
-    });
-    
-    bud.show(); // Shows the floating action button on the page
+    function asyncBudInit(){
+      bud.init({
+        endpoint: 'https://auxil.cdn.prismic.io/api/v2',
+        documentType: 'faq',
+        orientation: '-45deg',
+        colors: ['#0486ff'],
+        productArea: 'leadplus'
+      });
+      
+      bud.show(); // Shows the floating action button on the page
+    }
 
     (function(d, s, id){
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {return;}
       js = d.createElement(s); js.id = id;
-      js.src = "enter the CDN url of bud";
+      js.onload = asyncBudInit;
+      js.src = "https://plugin.bizongo.in/bud.js";
       fjs.parentNode.insertBefore(js, fjs);
     })(document, 'script', 'bud');
   &lt;/script&gt;

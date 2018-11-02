@@ -29,21 +29,24 @@ npm i --save bootstrap @fortawesome/fontawesome-free animate.css
 ```
 ```javascript
 <script type="text/javascript">
-    bud.init({
-      endpoint: 'https://auxil.cdn.prismic.io/api/v2',
-      documentType: 'faq',
-      orientation: '-45deg',
-      colors: ['#0486ff'],
-      productArea: 'leadplus'
-    });
-    
-    bud.show(); // Shows the floating action button on the page
+    function asyncBudInit(){
+      bud.init({
+        endpoint: 'https://auxil.cdn.prismic.io/api/v2',
+        documentType: 'faq',
+        orientation: '-45deg',
+        colors: ['#0486ff'],
+        productArea: 'leadplus'
+      });
+      
+      bud.show(); // Shows the floating action button on the page
+    }
 
     (function(d, s, id){
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {return;}
       js = d.createElement(s); js.id = id;
-      js.src = "enter the CDN url of bud";
+      js.onload = asyncBudInit;
+      js.src = "https://plugin.bizongo.in/bud.js";
       fjs.parentNode.insertBefore(js, fjs);
     })(document, 'script', 'bud');
 </script>
