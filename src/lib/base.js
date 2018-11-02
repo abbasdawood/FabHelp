@@ -47,7 +47,7 @@ export class Base {
     /**
      * Function to show the button on the page
      */
-    show() {
+    show(searchTerm) {
         let button = document.createElement('button'); // Create the help button
         button.classList.add('fab-caller', 'float-right');
         button.innerHTML = '<i class="fas fa-question animated fadeIn fa-sm"></i>';
@@ -75,7 +75,7 @@ export class Base {
         });
         this.getBaseElement().appendChild(button);
 
-        if(this.searchTerm){
+        if(searchTerm){
             button.click();
         }
     }
@@ -112,12 +112,7 @@ export class Base {
         this.setting = new Setting(configuration.endpoint, configuration.documentType, configuration.productArea);
         this.orientation = configuration.orientation;
         this.colors = configuration.colors
-        if(configuration.searchTerm){
-            this.searchTerm = searchTerm;
-            this.show();
-        }
         this.initialized = true;
-        // this.showButton();
     }
 
 }

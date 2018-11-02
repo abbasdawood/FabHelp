@@ -12,8 +12,8 @@ module.exports = {
         libraryTarget: 'umd',
         libraryExport: 'default',
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js',
-        chunkFilename: '[name]-[chunkhash].js'
+        filename: 'bud.js',
+        chunkFilename: 'bud-[chunkhash].js'
     },
     optimization: {
         splitChunks: {
@@ -61,6 +61,8 @@ module.exports = {
         new HTMLWebpackPlugin({
             template: path.resolve(__dirname, 'index.html')
         }),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        require('autoprefixer'),
+        require('cssnano')
     ]
 };

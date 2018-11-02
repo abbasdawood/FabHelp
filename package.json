@@ -4,9 +4,9 @@
   "description": "Floating help plugin triggered from a floating action button on the page, works with Prismic Headless CMS as a backend.",
   "main": "src/main.js",
   "scripts": {
-    "build": "webpack",
+    "build": "cd dist && rm -fv * && cd .. && webpack",
     "start": "webpack-dev-server --open",
-    "version": "npm run build && git add -A dist",
+    "version": "npm run build && git add -a dist",
     "postversion": "git push && git push --tags"
   },
   "author": "abbasdawood",

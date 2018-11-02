@@ -29,18 +29,31 @@ npm i --save bootstrap @fortawesome/fontawesome-free animate.css
 ```
 ```javascript
 <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function(){
-      let bud = new Bud({
-        endpoint: 'your prismic bucket endpoint',
-        documentType: 'faq'
-     });
-      bud.init();
-    });
+    function asyncBudInit(){
+      bud.init({
+        endpoint: 'https://auxil.cdn.prismic.io/api/v2',
+        documentType: 'faq',
+        orientation: '-45deg',
+        colors: ['#0486ff'],
+        productArea: 'leadplus'
+      });
+      
+      bud.show(); // Shows the floating action button on the page
+    }
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.onload = asyncBudInit;
+      js.src = "https://plugin.bizongo.in/bud.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'script', 'bud');
 </script>
 ```
 
 ## Initialisation Options
-A new instance of Bud is created with the following options
+Bud will need to be initialised with the following options
 
 Option | Mandatory | Description | Default Value
 ----|----|----|----
@@ -48,11 +61,11 @@ endpoint|Yes|The endpoint obtained from your prismic repository|
 documentType|Yes|The document type in your prismic repository|`faq`
 productArea|No|An added filter to choose FAQs only of a particular app|
 orientation|No|Gradient orientation in the Floating Action Button| `-45deg`
-colors|No|Array with the color of the button, if more than one color is defined, the button will have a linear-gradient|['#00bbf9', '#007eff']
+colors|Yes|Array with the color of the button, if more than one color is defined, the button will have a linear-gradient|['#00bbf9', '#007eff']
 
-Once the initialisation is done, you will need to call `bud.init()`. The `init()` method can be called with a single string parameter passed to it, this will open the help interface with any and all articles with the keyword.
+Once the initialisation is done, you will need to call `bud.show()`. The `show()` method can be called with a single string parameter passed to it, this will open the help interface with any and all articles with the keyword.
 
-For example. `bud.init('time')` will search for all articles with the phrase `time` in them. The search is a full text search, and does not account for typos.
+For example. `bud.show('time')` will search for all articles with the phrase `time` in them. The search is a full text search, and does not account for typos.
 
 
 ## Peer dependencies
