@@ -27,6 +27,7 @@
     "postcss-loader": "^2.1.5",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-scss": "^0.4.0",
+    "s3-deploy": "^1.1.4",
     "sass-loader": "^7.0.1",
     "style-loader": "^0.21.0",
     "uglifyjs-webpack-plugin": "^1.2.5",

@@ -4,15 +4,8 @@ import { Card } from './card';
 
 export class Base {
 
-    constructor(configuration) {
-        this.initialized = false;
-        this.configuration = configuration || {
-            ...configuration,
-            documentType: 'faq'
-        };
-        this.setting = new Setting(configuration.endpoint, configuration.documentType, configuration.productArea);
-        this.orientation = configuration.orientation;
-        this.colors = configuration.colors
+    constructor() {
+        
     }
 
     getBaseElement() {
@@ -54,7 +47,7 @@ export class Base {
     /**
      * Function to show the button on the page
      */
-    showButton() {
+    show() {
         let button = document.createElement('button'); // Create the help button
         button.classList.add('fab-caller', 'float-right');
         button.innerHTML = '<i class="fas fa-question animated fadeIn fa-sm"></i>';
@@ -110,10 +103,21 @@ export class Base {
     /**
      * Entry point, this starts the initialisation
      */
-    init(searchTerm) {
-        this.searchTerm = searchTerm;
-        this.showButton();
+    init(configuration) {
+        this.initialized = false;
+        this.configuration = configuration || {
+            ...configuration,
+            documentType: 'faq'
+        };
+        this.setting = new Setting(configuration.endpoint, configuration.documentType, configuration.productArea);
+        this.orientation = configuration.orientation;
+        this.colors = configuration.colors
+        if(configuration.searchTerm){
+            this.searchTerm = searchTerm;
+            this.show();
+        }
         this.initialized = true;
+        // this.showButton();
     }
 
 }
