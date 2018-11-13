@@ -9,7 +9,7 @@ export class FaqDocument{
             this.id = document.id;
             let post_content = [];
             post_content = raw.answer;
-            this.content_text = PrismicDOM.RichText.asText(post_content).trim().substring(0, 84) + '…';
+            this.content_text = PrismicDOM.RichText.asText(post_content).trim().substring(0, 72) + '…';
             post_content = post_content.map(content => {
                 if (content.type === 'embed') {
                     content.oembed.html
@@ -25,6 +25,9 @@ export class FaqDocument{
             this.content = PrismicDOM.RichText.asHtml(post_content).replace(/img/g, 'img class="img-fluid border"').replace(/class=" block-img class="img-fluid border""/g, '')
             this.publishedOn = document.firstPublicationDate;
             this.updatedOn = document.lastPublicationDate;
+            this.related = raw.related.map(article => {
+                return article.article.id
+            });
             this.error = null;
         } else {
             this.error = new Error('Could not retreive the document');
@@ -47,6 +50,10 @@ export class FaqDocument{
             snippet: this.content_text,
             id: document.id
         }
+    }
+
+    getRelatedArticles(){
+        return this.related
     }
 
 }

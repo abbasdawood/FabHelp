@@ -29,7 +29,7 @@ export class Card {
                 <div class="input-group">
                     <div class="input-group-prepend">
                     <span class="input-group-text bg-white" id="basic-addon1">
-                        <i class="fas fa-search"></i>
+                        <i class="fa fa-search"></i>
                     </span>
                     </div>
                     <input type="search" id="search-box" class="form-control" placeholder="Search articles & documents" aria-describedby="basic-addon1" autocomplete="off">
@@ -48,7 +48,7 @@ export class Card {
         </div>
         <div class="card-footer bg-white d-none" id="card-footer">
             <button class="btn btn-sm btn-outline-primary" id="back-button">
-                <i class="fas fa-sm fa-chevron-left mr-1"></i> Go Back
+                <i class="fa fa-sm fa-chevron-left mr-1"></i> Go Back
             </button>
         </div>
         `;
@@ -98,7 +98,7 @@ export class Card {
         let self = this;
         self.removeArticles();
         let nullTemplate = `
-            <i class="fas fa-exclamation-triangle fa-2x text-warning mb-3"></i>
+            <i class="fa fa-exclamation-triangle fa-2x text-warning mb-3"></i>
             <h5>Whoops!</h5>
             <p class="text-muted">We couldn't find any resource matching <em>${searchTerm}</em>. Try using another search term.</p>
             <button class="btn btn-outline-primary my-2" id="clear-search">Clear this search</button>
@@ -230,15 +230,48 @@ export class Card {
         document.getElementById('detail').innerHTML = alertTemplate;
     }
 
+    generateRelatedArticles(related){
+        let self = this;
+        let content = new Content();
+
+        if(related && related.length){
+            let ul = document.createElement('ul');
+            ul.setAttribute('id','related-articles');
+            ul.className = 'list-group'
+            ul.innerHTML = '<h6>See Also</h6><hr>'
+            document.getElementById('detail').appendChild(ul);
+
+            related.forEach(id => {
+                content.getById(self.setting.endpoint, id).then(doc => {
+                    let relatedDocument = new FaqDocument(doc).getSnapshot();
+                    console.log(relatedDocument);
+                    let e = document.createElement('li');
+                    e.className = 'list-group-item';
+                    e.innerHTML = `
+                    <h6>${relatedDocument.title}</h6>
+                    <small>${relatedDocument.snippet}</small>
+                    <a class="read-more small float-right mt-1" href="#" data-document-id="${doc.id}">Read More</a>
+                    `;
+                    e.childNodes.forEach(node => {
+                        if (doc.id) {
+                            self.addListItemEventListener(node);
+                        }
+                    });
+                    document.getElementById('related-articles').appendChild(e);
+                }).catch(err => console.error(err))
+            })
+        }
+    }
+
     generateDetailView(id) {
         let self = this;
 
         if (self.showDetail) {
             console.log('Detail view is already open');
-            return;
+            this.hideElement('detail');
         }
 
-        // Hide these elements: search, document-list
+        // Hide these elements: document-list
         this.hideElement('document-list');
         this.removeArticles();
 
@@ -254,12 +287,16 @@ export class Card {
             .then(doc => {
                 // Hide the loader
                 self.hideElement('loader');
-                let faqDocument = new FaqDocument(doc).getDocument();
+
+                let faq = new FaqDocument(doc);
+                let faqDocument = faq.getDocument();
+                let related = faq.getRelatedArticles();
                 let cardTemplateContent = `
                     <h5 class="card-title">${faqDocument.title}</h5><hr>
                     <div>${faqDocument.content}</div>
                 `;
                 document.getElementById('detail').innerHTML = cardTemplateContent;
+                self.generateRelatedArticles(related);
 
             }).catch(error => {
                 // Hide the loader
