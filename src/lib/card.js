@@ -305,6 +305,16 @@ export class Card {
             });
     }
 
+    generateBadgeClass(productArea){
+        var c;
+        switch(productArea){
+            case 'leadplus': c = 'badge-primary'; break;
+            case 'catalogue': c = 'badge-warning'; break;
+            default: c = 'badge-primary';
+        }
+        return c;
+    }
+
     buildResponseDom(response, searchTerm) {
         let results = response.results;
         let self = this;
@@ -327,6 +337,7 @@ export class Card {
                 listItem.classList.add('list-group-item');
                 let faqItem = this.getListItemContent(doc);
                 listItem.innerHTML = `
+                <span class="badge text-uppercase ${self.generateBadgeClass(faqItem.productArea)}">${faqItem.productArea}</span>
                     <h6>${faqItem.title}</h6>
                     <small>${faqItem.snippet}</small>
                     <a class="read-more small float-right mt-1" href="#" data-document-id="${doc.id}">Read More</a>

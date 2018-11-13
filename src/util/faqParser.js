@@ -7,6 +7,7 @@ export class FaqDocument{
             let raw = document.rawJSON;
             this.title = PrismicDOM.RichText.asText(raw.title).trim();
             this.id = document.id;
+            this.productArea = raw.product_area;
             let post_content = [];
             post_content = raw.answer;
             this.content_text = PrismicDOM.RichText.asText(post_content).trim().substring(0, 72) + '…';
@@ -48,7 +49,8 @@ export class FaqDocument{
         return {
             title: this.title,
             snippet: this.content_text,
-            id: document.id
+            productArea: this.productArea,
+            id: this.id
         }
     }
 

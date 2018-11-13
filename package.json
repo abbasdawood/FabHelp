@@ -6,7 +6,8 @@
   "scripts": {
     "build": "cd dist && rm -fv * && cd .. && webpack",
     "start": "webpack-dev-server --open",
-    "version": "npm run build && git add -a dist",
+    "version": "npm run build && git add -a dist && npm run deploy",
+    "deploy":"s3-deploy './dist/**' --cwd './dist' --region ap-south-1 --bucket plugin.bizongo.in --signatureVersion v4 --cache 86400 --gzip",
     "postversion": "git push && git push --tags"
   },
   "author": "abbasdawood",
