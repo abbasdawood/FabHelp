@@ -1,13 +1,13 @@
 {
   "name": "bud",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Floating help plugin triggered from a floating action button on the page, works with Prismic Headless CMS as a backend.",
   "main": "src/main.js",
   "scripts": {
     "build": "cd dist && rm -fv * && cd .. && webpack",
     "start": "webpack-dev-server --open",
-    "version": "npm run build && git add -a dist && npm run deploy",
-    "deploy":"s3-deploy './dist/**' --cwd './dist' --region ap-south-1 --bucket plugin.bizongo.in --signatureVersion v4 --cache 86400 --gzip",
+    "version": "npm run build && npm run deploy",
+    "deploy": "s3-deploy './dist/**' --cwd './dist' --region ap-south-1 --bucket plugin.bizongo.in --signatureVersion v4 --cache 86400 --gzip",
     "postversion": "git push && git push --tags"
   },
   "author": "abbasdawood",
