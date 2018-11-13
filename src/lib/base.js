@@ -50,7 +50,7 @@ export class Base {
     show(searchTerm) {
         let button = document.createElement('button'); // Create the help button
         button.classList.add('fab-caller', 'float-right');
-        button.innerHTML = '<i class="fas fa-question animated fadeIn fa-sm"></i>';
+        button.innerHTML = '<i class="fa fa-question animated fadeIn fa-sm"></i>';
 
         if(this.colors.length > 1){
             let colorString = this.colors.join(',')
@@ -64,10 +64,10 @@ export class Base {
         button.addEventListener('click', (event) => {
             if (!button.getAttribute('data-open') && button.getAttribute('data-open') !== 'open') {
                 button.setAttribute('data-open', 'open');
-                button.innerHTML = '<i class="fas fa-times animated rotateIn fa-xs"></i>'
+                button.innerHTML = '<i class="fa fa-times animated rotateIn fa-xs"></i>'
                 self.showCard(self.searchTerm);
             } else {
-                button.innerHTML = '<i class="fas fa-question animated fadeIn fa-xs"></i>';
+                button.innerHTML = '<i class="fa fa-question animated fadeIn fa-xs"></i>';
                 button.removeAttribute('data-open');
                 self.destroyCard();
                 self.searchTerm = null;
