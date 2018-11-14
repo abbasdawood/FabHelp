@@ -1,6 +1,6 @@
 {
   "name": "bud",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Floating help plugin triggered from a floating action button on the page, works with Prismic Headless CMS as a backend.",
   "main": "src/main.js",
   "scripts": {
