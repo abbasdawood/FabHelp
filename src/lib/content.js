@@ -20,8 +20,7 @@ export class Content {
             // return import(/* webpackChunkName: "prismic.io" */ 'prismic.io').then(({ default: Prismic }) => {
                 let filters = [Prismic.Predicates.at('document.type', type)];
                 let options = { page: page, pageSize: pageSize, orderings: `[my.${type}.last_publication_date desc]` };
-
-                if (content) {
+                if (content && content.length && content !== null) {
                     filters.push(Prismic.Predicates.fulltext('document', content));
                 }
 
