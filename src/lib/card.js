@@ -89,7 +89,8 @@ export class Card {
             let searchTerm = document.getElementById('search-box').value;
             if(searchTerm){
                 self.page = 1;
-                self.getArticles(searchTerm, self.page, self.pagesize);  
+                self.getArticles(searchTerm, self.page, self.pagesize);
+                self.hideElement('detail');  
             }
         });
     }
