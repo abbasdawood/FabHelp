@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 #help-root {
     width: 320px;
-    height: calc(100vh - 150px);
+    // height: calc(100vh - 150px);
     position: fixed;
     bottom: 48px;
     right: 32px;
@@ -18,6 +18,10 @@
     user-select: none;
     transform-origin: right bottom;
 
+    .small{
+        background: #fff;
+    }
+
     #document-list {
         li {
             &:hover {
@@ -32,23 +36,31 @@
         max-height: 320px;
         overflow-y: scroll;
     }
+
+    #card-footer{
+        button{
+            border-radius: 0.2rem !important;
+            letter-spacing: 0 !important;
+            font-size: 0.875rem !important;
+        }
+    }
 }
 
 .fab-caller {
     position: absolute;
     bottom: 0;
     right: 0;
-    display: block;
+    display: flex;
+    justify-content: center;
     width: 56px;
     height: 56px;
     // background: linear-gradient(-45deg, #00bbf9, #007eff);
     box-shadow: 0 5px 15px rgba($color: #000000, $alpha: 0.3);
     font-weight: 700;
-    font-size: 1.6rem;
-    border-radius: 50%;
+    font-size: 1.6rem !important;
+    border-radius: 50% !important;
     color: white;
-    padding-top: 0;
-    padding-bottom: 5px;
+    padding-top: 0 auto 5px !important;
     border: 1px solid transparent;
     &:hover {
         box-shadow: 0 1px 20px rgba($color: #000022, $alpha: 0.25);
