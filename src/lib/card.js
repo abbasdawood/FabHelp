@@ -47,7 +47,7 @@ export class Card {
             <div class="lds-ripple my-3"><div></div><div></div></div>
         </div>
         <div class="card-footer bg-white d-none" id="card-footer">
-            <button class="btn btn-sm btn-outline-primary" id="back-button">
+            <button class="btn btn-sm btn-outline-primary text-capitalize" id="back-button">
                 <i class="fa fa-sm fa-chevron-left mr-1"></i> Go Back
             </button>
         </div>
