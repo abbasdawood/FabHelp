@@ -36,6 +36,14 @@
         max-height: 320px;
         overflow-y: scroll;
     }
+
+    #card-footer{
+        button{
+            border-radius: 0.2rem !important;
+            letter-spacing: 0 !important;
+            font-size: 0.875rem !important;
+        }
+    }
 }
 
 .fab-caller {
