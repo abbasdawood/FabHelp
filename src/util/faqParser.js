@@ -10,7 +10,7 @@ export class FaqDocument{
             this.productArea = raw.product_area;
             let post_content = [];
             post_content = raw.answer;
-            this.content_text = PrismicDOM.RichText.asText(post_content).trim().substring(0, 72) + '…';
+            this.content_text = PrismicDOM.RichText.asText(post_content).trim().substring(0, 64) + '…';
             post_content = post_content.map(content => {
                 if (content.type === 'embed') {
                     content.oembed.html
