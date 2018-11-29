@@ -24,7 +24,7 @@ export class Card {
         <div class="card-header">
             Hi, How can we help?
         </div>
-        <div class="card-body d-none" id="search">
+        <div class="card-body d-none pb-0" id="search">
             <form id="search-form" autocomplete="off">
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -338,8 +338,8 @@ export class Card {
                 listItem.classList.add('list-group-item');
                 let faqItem = this.getListItemContent(doc);
                 listItem.innerHTML = `
-                <span class="badge text-uppercase ${self.generateBadgeClass(faqItem.productArea)}">${faqItem.productArea}</span>
-                    <h6>${faqItem.title}</h6>
+                <small class="badge mb-1 text-uppercase ${self.generateBadgeClass(faqItem.productArea)}">${faqItem.productArea}</small>
+                    <h6 class="mb-0">${faqItem.title}</h6>
                     <small>${faqItem.snippet}</small>
                     <a class="read-more small float-right mt-1" href="#" data-document-id="${doc.id}">Read More</a>
                 `;

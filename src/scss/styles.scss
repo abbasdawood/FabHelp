@@ -1,5 +1,5 @@
 // @import '~bootstrap/scss/bootstrap';
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
 #help-root {
     width: 320px;
     // height: calc(100vh - 150px);
@@ -9,6 +9,10 @@
     vertical-align: bottom;
     font-family: 'Open Sans', sans-serif;
     z-index: 20000;
+
+    h1,h2,h3,h4,h5,h6{
+        font-weight: 600 !important;
+    }
 }
 
 .card {
@@ -61,6 +65,7 @@
     border-radius: 50% !important;
     color: white;
     padding: 0 0 5px !important;
+    padding-top: 5px !important;
     border: 1px solid transparent;
     &:hover {
         box-shadow: 0 1px 20px rgba($color: #000022, $alpha: 0.25);

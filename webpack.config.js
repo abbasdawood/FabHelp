@@ -11,7 +11,7 @@ module.exports = {
         library: 'Bud',
         libraryTarget: 'umd',
         libraryExport: 'default',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'docs'),
         filename: 'bud.js',
         chunkFilename: 'bud-[chunkhash].js'
     },
